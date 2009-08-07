@@ -124,11 +124,12 @@ module Facebooker
     #   ])
     def publish_to target, options = {}
       @session.post('facebook.stream.publish',
-                    :uid        => self.id,
-                    :target_id  => target.id,
-                    :message    => options[:message],
-                    :attachment => Facebooker.json_encode(options[:attachment]),
-                    :action_links => Facebooker.json_encode(options[:action_links])
+                    { :uid        => self.id,
+                      :target_id  => target.id,
+                      :message    => options[:message],
+                      :attachment => options[:attachment] && Facebooker.json_encode(a),
+                      :action_links => options[:actions_links] && Facebooker.json_encode(lks) }, 
+                    false
                    )
     end
     
@@ -361,7 +362,7 @@ module Facebooker
     ##
     # Checks to see if the user has enabled the given extended permission
     def has_permission?(ext_perm) # ext_perm = email, offline_access, status_update, photo_upload, create_listing, create_event, rsvp_event, sms
-      session.post('facebook.users.hasAppPermission',:ext_perm=>ext_perm) == "1"
+      session.post('facebook.users.hasAppPermission', {:ext_perm=>ext_perm, :uid => uid}, false) == "1"
     end    
     
     ##
