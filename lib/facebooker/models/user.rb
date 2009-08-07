@@ -127,8 +127,8 @@ module Facebooker
                     { :uid        => self.id,
                       :target_id  => target.id,
                       :message    => options[:message],
-                      :attachment => options[:attachment] && Facebooker.json_encode(a),
-                      :action_links => options[:actions_links] && Facebooker.json_encode(lks) }, 
+                      :attachment => options[:attachment] && Facebooker.json_encode(options[:attachment]),
+                      :action_links => options[:actions_links] && Facebooker.json_encode(options[:actions_links]) }, 
                     false
                    )
     end
